@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kontakta Lidstroem — Fråga om pris, leverans och beställning av handbyggda bord." />
+  <title>Kontakt — Lidstroem</title>
+  <link rel="icon" href="images/logo.webp" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    /* ── CONTACT SPECIFIC ── */
+
+    .contact-body {
+      padding: var(--section-pad) 2rem;
+    }
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 8rem;
+      align-items: start;
+    }
+
+    /* Info column */
+    .contact-info__name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 0.2rem;
+    }
+    .contact-info__sub {
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+    }
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .contact-detail { display: flex; flex-direction: column; gap: 0.2rem; }
+    .detail-label {
+      font-family: var(--font-ui);
+      font-size: 0.63rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .detail-value {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      color: var(--cream-dim);
+      transition: color 0.3s;
+    }
+    a.detail-value:hover { color: var(--cream); }
+    .contact-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 2.5rem 0;
+    }
+    .contact-note {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label {
+      font-family: var(--font-ui);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+    }
+    .opt {
+      font-family: var(--font-ui);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-weight: 400;
+      text-transform: none;
+    }
+    .form-group input,
+    .form-group textarea {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 0;
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      padding: 0.9rem 1rem;
+      outline: none;
+      width: 100%;
+      resize: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      background: rgba(20,18,16,.8);
+    }
+    .form-group.has-error input,
+    .form-group.has-error textarea {
+      border-color: #c47a3a;
+    }
+    .form-error-msg {
+      font-family: var(--font-ui);
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      color: #c47a3a;
+      display: none;
+    }
+    .form-group.has-error .form-error-msg { display: block; }
+
+    .form-status {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      font-family: var(--font-ui);
+      font-size: 0.76rem;
+      letter-spacing: 0.07em;
+    }
+    .form-status.visible { display: flex; }
+    .status-ok {
+      background: rgba(58,196,100,.08);
+      border: 1px solid rgba(58,196,100,.25);
+      color: #7acf95;
+    }
+    .status-err {
+      background: rgba(196,122,58,.08);
+      border: 1px solid rgba(196,122,58,.25);
+      color: #c47a3a;
+    }
+    .btn-submit {
+      align-self: flex-start;
+      transition: opacity 0.3s, background 0.3s, transform 0.3s;
+    }
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    @media (max-width: 900px) {
+      .contact-inner { grid-template-columns: 1fr; gap: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<header class="navbar">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo">
+      <img src="images/logo.webp" alt="Lidstroem" />
+      <span class="navbar__brand">Lidstroem</span>
+    </a>
+    <nav class="navbar__nav">
+      <a href="index.html">Hem</a>
+      <a href="lantbord.html">Lantbordet</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <button class="navbar__burger" aria-label="Meny">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="navbar__mobile">
+    <a href="index.html">Hem</a>
+    <a href="lantbord.html">Lantbordet</a>
+    <a href="kontakt.html">Kontakt</a>
+  </nav>
+</header>
+
+<!-- ══ PAGE HEADER ══ -->
+<div class="page-header">
+  <div class="page-header__bg">
+    <img src="images/kontakt.jpg" alt="" />
+    <div class="page-header__overlay"></div>
+  </div>
+  <div class="page-header__content">
+    <span class="label reveal">Hör av dig</span>
+    <div class="gold-line reveal reveal-d1"></div>
+    <h1 class="page-header__title reveal reveal-d1">Kontakt</h1>
+    <p class="page-header__sub reveal reveal-d2">Intresserad av ett bord? Vi svarar så snart vi kan.</p>
+  </div>
+</div>
+
+<!-- ══ KONTAKT BODY ══ -->
+<div class="contact-body">
+  <div class="contact-inner">
+
+    <!-- INFO -->
+    <div class="contact-info reveal">
+      <h2 class="contact-info__name">Lidstroem</h2>
+      <p class="contact-info__sub">Handbyggda möbler</p>
+      <div class="contact-details">
+        <div class="contact-detail reveal reveal-d1">
+          <span class="detail-label">E-post</span>
+          <a href="mailto:info@lidstroem.se" class="detail-value">info@lidstroem.se</a>
+        </div>
+        <div class="contact-detail reveal reveal-d2">
+          <span class="detail-label">Telefon</span>
+          <a href="tel:+46700000000" class="detail-value">+46 70 000 00 00</a>
+        </div>
+        <div class="contact-detail reveal reveal-d3">
+          <span class="detail-label">Svarstid</span>
+          <span class="detail-value">Inom 1–2 vardagar</span>
+        </div>
+      </div>
+      <div class="contact-divider"></div>
+      <p class="contact-note">
+        Ange gärna var bordet ska stå, om det är för privat eller kommersiellt bruk,
+        samt eventuella önskemål om antal och utförande.
+      </p>
+    </div>
+
+    <!-- FORM -->
+    <div class="reveal reveal-d1">
+      <form class="contact-form" id="contact-form" novalidate>
+
+        <div class="form-group" id="grp-name">
+          <label for="name">Namn</label>
+          <input type="text" id="name" name="name" placeholder="Ditt namn" autocomplete="name" />
+          <span class="form-error-msg">Ange ditt namn.</span>
+        </div>
+
+        <div class="form-group" id="grp-email">
+          <label for="email">E-postadress</label>
+          <input type="email" id="email" name="email" placeholder="din@epost.se" autocomplete="email" />
+          <span class="form-error-msg">Ange en giltig e-postadress.</span>
+        </div>
+
+        <div class="form-group" id="grp-phone">
+          <label for="phone">Telefon <span class="opt">(valfritt)</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="+46 70 000 00 00" autocomplete="tel" />
+        </div>
+
+        <div class="form-group" id="grp-message">
+          <label for="message">Meddelande</label>
+          <textarea id="message" name="message" rows="6" placeholder="Berätta lite om vad du är intresserad av..."></textarea>
+          <span class="form-error-msg">Meddelandet måste vara minst 10 tecken.</span>
+        </div>
+
+        <div class="form-status status-ok" id="status-ok">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M6 10l3 3 5-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Tack! Ditt meddelande är skickat. Vi återkommer snart.
+        </div>
+        <div class="form-status status-err" id="status-err">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M10 6v4M10 13v1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          Något gick fel. Skicka direkt till <strong>info@lidstroem.se</strong>
+        </div>
+
+        <button type="submit" class="btn btn-gold btn-submit" id="submit-btn">
+          Skicka meddelande
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer__inner">
+    <div class="footer__logo">
+      <img src="images/logo.webp" alt="Lidstroem" />
+      <span>Lidstroem</span>
+    </div>
+    <p class="footer__tagline">Handbyggda möbler av hög kvalitet.</p>
+    <nav class="footer__nav">
+      <a href="index.html">Hem</a>
+      <span class="sep">·</span>
+      <a href="lantbord.html">Lantbordet</a>
+      <span class="sep">·</span>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <p class="footer__copy">&copy; <span id="yr"></span> Lidstroem. Alla rättigheter förbehållna.</p>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ── FORMSPREE ──────────────────────────────────────────────
+     Registrera på formspree.io och ersätt YOUR_FORM_ID nedan.
+     Exempel: https://formspree.io/f/xpznwrqb
+  ─────────────────────────────────────────────────────────── */
+  const FORMSPREE_URL = 'https://formspree.io/f/YOUR_FORM_ID';
+
+  const form    = document.getElementById('contact-form');
+  const nameEl  = document.getElementById('name');
+  const emailEl = document.getElementById('email');
+  const msgEl   = document.getElementById('message');
+  const btn     = document.getElementById('submit-btn');
+  const okBox   = document.getElementById('status-ok');
+  const errBox  = document.getElementById('status-err');
+
+  function setError(groupId, show) {
+    document.getElementById(groupId).classList.toggle('has-error', show);
+  }
+
+  function validate() {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const nameOk  = nameEl.value.trim().length > 0;
+    const emailOk = re.test(emailEl.value.trim());
+    const msgOk   = msgEl.value.trim().length >= 10;
+    setError('grp-name',    !nameOk);
+    setError('grp-email',   !emailOk);
+    setError('grp-message', !msgOk);
+    return nameOk && emailOk && msgOk;
+  }
+
+  [nameEl, emailEl, msgEl].forEach(el => {
+    el.addEventListener('blur', () => validate());
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Skickar...';
+    okBox.classList.remove('visible');
+    errBox.classList.remove('visible');
+
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:    nameEl.value,
+          email:   emailEl.value,
+          phone:   document.getElementById('phone').value,
+          message: msgEl.value,
+        }),
+      });
+      if (res.ok) {
+        okBox.classList.add('visible');
+        form.reset();
+      } else {
+        errBox.classList.add('visible');
+      }
+    } catch {
+      errBox.classList.add('visible');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Skicka meddelande';
+  });
+</script>
+</body>
+</html>

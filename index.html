@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lidstroem — Handbyggda picknicktbord och lantbord av hög kvalitet. Tryckimpregnerat virke för lång livslängd." />
+  <title>Lidstroem — Handbyggda möbler</title>
+  <link rel="icon" href="images/logo.webp" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    /* ── HOME-SPECIFIC ── */
+
+    /* ABOUT */
+    .about {
+      padding: var(--section-pad) 2rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .about__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 1.4rem;
+    }
+    .about__body {
+      color: var(--cream-dim);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    .about__image {
+      position: relative;
+    }
+    .about__image img {
+      width: 100%;
+      height: 560px;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .about__image-frame {
+      position: absolute;
+      bottom: -1.5rem;
+      right: -1.5rem;
+      width: 58%;
+      height: 58%;
+      border: 1px solid var(--border);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* FEATURES */
+    .features {
+      background: var(--bg-section);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: var(--section-pad) 2rem;
+    }
+    .features__inner { max-width: 1100px; margin: 0 auto; }
+    .features__header { margin-bottom: 4.5rem; }
+    .features__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      color: var(--cream);
+    }
+    .features__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4rem;
+    }
+    .feature {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+    }
+    .feature__icon { color: var(--gold); margin-bottom: 1.4rem; }
+    .feature h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--cream);
+      letter-spacing: 0.03em;
+      margin-bottom: 0.7rem;
+    }
+    .feature p { font-size: 1rem; line-height: 1.75; color: var(--cream-dim); }
+
+    /* GALLERY */
+    .gallery { padding: var(--section-pad) 0; }
+    .gallery__header {
+      padding: 0 2rem;
+      max-width: 1280px;
+      margin: 0 auto 3.5rem;
+    }
+    .gallery__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      color: var(--cream);
+    }
+    .gallery__grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      grid-template-rows: 340px 340px;
+      gap: 4px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .gallery__item { overflow: hidden; background: var(--bg-card); }
+    .gallery__item--large { grid-row: span 2; }
+    .gallery__item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s var(--ease-out);
+    }
+    .gallery__item:hover img { transform: scale(1.06); }
+
+    /* TEASER */
+    .teaser {
+      background: var(--bg-section);
+      border-top: 1px solid var(--border);
+      padding: var(--section-pad) 2rem;
+    }
+    .teaser__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .teaser__img-wrap { position: relative; overflow: hidden; }
+    .teaser__img-wrap img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      transition: transform 0.8s var(--ease-out);
+    }
+    .teaser__img-wrap:hover img { transform: scale(1.04); }
+    .teaser__badge {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 0.35rem 0.8rem;
+    }
+    .teaser__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 1.2rem;
+    }
+    .teaser__body {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--cream-dim);
+      margin-bottom: 2rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .about__inner,
+      .teaser__inner { grid-template-columns: 1fr; gap: 3rem; }
+      .about__image img { height: 360px; }
+      .teaser__img-wrap img { height: 320px; }
+      .about__image { order: -1; }
+      .features__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .gallery__grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .gallery__item { height: 260px; }
+      .gallery__item--large { grid-row: span 1; height: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<header class="navbar">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo">
+      <img src="images/logo.webp" alt="Lidstroem" />
+      <span class="navbar__brand">Lidstroem</span>
+    </a>
+    <nav class="navbar__nav">
+      <a href="index.html">Hem</a>
+      <a href="lantbord.html">Lantbordet</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <button class="navbar__burger" aria-label="Meny">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="navbar__mobile">
+    <a href="index.html">Hem</a>
+    <a href="lantbord.html">Lantbordet</a>
+    <a href="kontakt.html">Kontakt</a>
+  </nav>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero__bg">
+    <img src="images/hero.jpg" alt="Lidstroem picknicktbord på sommaräng" style="object-position: center 30%;" />
+    <div class="hero__overlay"></div>
+  </div>
+  <div class="hero__content">
+    <span class="label reveal">Handbyggt i Sverige</span>
+    <h1 class="hero__title reveal reveal-d1">Bordet som<br />håller ett liv.</h1>
+    <p class="hero__sub reveal reveal-d2">
+      Tryckimpregnerat virke. Gedigen konstruktion.<br />Skapad för svenska somrar.
+    </p>
+    <div class="hero__cta reveal reveal-d3">
+      <a href="kontakt.html" class="btn btn-gold">Kontakta oss</a>
+      <a href="#om" class="btn btn-outline">Se bordet</a>
+    </div>
+  </div>
+  <div class="hero__scroll reveal reveal-d4"><span></span></div>
+</section>
+
+<!-- ══ OM BORDET ══ -->
+<section class="about" id="om">
+  <div class="about__inner">
+    <div class="about__text">
+      <span class="label reveal">Om bordet</span>
+      <div class="gold-line reveal reveal-d1"></div>
+      <h2 class="about__title reveal reveal-d1">Byggd för att bestå.</h2>
+      <p class="about__body reveal reveal-d2">
+        Varje bord byggs för hand med noggrant utvalt tryckimpregnerat virke —
+        behandlat för att motstå fukt, röta och tidens tand. Resultatet är ett
+        bord som inte bara ser bra ut från dag ett, utan som håller genom
+        decennier av regn, sol och sällskap.
+      </p>
+      <p class="about__body reveal reveal-d3">
+        Konstruktionen är genomtänkt i varje detalj: robust bärstruktur,
+        avrundade kanter och ett sittmått som är bekvämt för hela familjen.
+        Passar lika bra på gårdsplanen som på restaurangterassen.
+      </p>
+      <a href="kontakt.html" class="btn btn-outline reveal reveal-d4" style="margin-top:1.5rem;">Fråga om pris</a>
+    </div>
+    <div class="about__image reveal reveal-d2">
+      <img src="images/front.jpg" alt="Frontvy av picknicktbord" />
+      <div class="about__image-frame"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EGENSKAPER ══ -->
+<section class="features">
+  <div class="features__inner">
+    <div class="features__header">
+      <span class="label reveal">Egenskaper</span>
+      <div class="gold-line reveal reveal-d1"></div>
+      <h2 class="features__title reveal reveal-d1">Varför Lidstroem?</h2>
+    </div>
+    <div class="features__grid">
+      <div class="feature reveal reveal-d1">
+        <div class="feature__icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="15" stroke="currentColor" stroke-width="1"/>
+            <path d="M8 20c2-4 4-6 8-6s6 2 8 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M16 14V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="16" cy="7" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Tryckimpregnerat</h3>
+        <p>Virket är djupimpregnerat mot fukt och röta, vilket ger ett bord som håller sig fint i det svenska klimatet utan ständigt underhåll.</p>
+      </div>
+      <div class="feature reveal reveal-d2">
+        <div class="feature__icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="1" y="1" width="30" height="30" stroke="currentColor" stroke-width="1"/>
+            <path d="M7 16h18M16 7v18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </div>
+        <h3>Robust konstruktion</h3>
+        <p>Kraftigt dimensionerat virke och rostfria bultar ger en stabil och säker konstruktion som tål hårt bruk år efter år.</p>
+      </div>
+      <div class="feature reveal reveal-d3">
+        <div class="feature__icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M4 26L16 6l12 20H4z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+            <path d="M16 14v6M16 22v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Handbyggt</h3>
+        <p>Varje bord byggs för hand med omsorg om detaljer. Inga genvägar — bara solitt hantverk från grunden till den sista skruven.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERI ══ -->
+<section class="gallery" id="galleri">
+  <div class="gallery__header">
+    <span class="label reveal">Galleri</span>
+    <div class="gold-line reveal reveal-d1"></div>
+    <h2 class="gallery__title reveal reveal-d1">Bordet i sin miljö</h2>
+  </div>
+  <div class="gallery__grid">
+    <div class="gallery__item gallery__item--large reveal">
+      <img src="images/detail.jpg" alt="Närbild på träkonstruktion" loading="lazy" />
+    </div>
+    <div class="gallery__item reveal reveal-d1">
+      <img src="images/dramatic.jpg" alt="Bordet sett framifrån" loading="lazy" />
+    </div>
+    <div class="gallery__item reveal reveal-d2">
+      <img src="images/side.jpg" alt="Sidovy av picknicktbordet" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<!-- ══ LANTBORD TEASER ══ -->
+<section class="teaser">
+  <div class="teaser__inner">
+    <div class="teaser__img-wrap reveal">
+      <img src="images/lantbord-angle.jpg" alt="Lantbordet — trebockskonstruktion" loading="lazy" />
+      <div class="teaser__badge">Nyhet</div>
+    </div>
+    <div class="teaser__text">
+      <span class="label reveal">Även från Lidstroem</span>
+      <div class="gold-line reveal reveal-d1"></div>
+      <h2 class="teaser__title reveal reveal-d1">Lantbordet</h2>
+      <p class="teaser__body reveal reveal-d2">
+        En massiv trebockskonstruktion inspirerad av gamla svenska gårdsbord.
+        Finns i två utföranden — oljat naturträ eller klassisk gråton med lasyr.
+        Byggs för restauranger, altaner och familjer som vill ha ett bord för generationer.
+      </p>
+      <a href="lantbord.html" class="btn btn-gold reveal reveal-d3">Se lantbordet</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="cta-banner">
+  <div class="cta-banner__bg">
+    <img src="images/kontakt.jpg" alt="" loading="lazy" />
+    <div class="cta-banner__overlay"></div>
+  </div>
+  <div class="cta-banner__inner">
+    <div class="cta-banner__content">
+      <span class="label reveal">Ta nästa steg</span>
+      <h2 class="cta-banner__title reveal reveal-d1">Intresserad av ett bord?</h2>
+      <p class="cta-banner__body reveal reveal-d2">Hör av dig så berättar vi mer om priser, leverans och beställning.</p>
+      <a href="kontakt.html" class="btn btn-gold reveal reveal-d3">Kontakta oss</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer__inner">
+    <div class="footer__logo">
+      <img src="images/logo.webp" alt="Lidstroem" />
+      <span>Lidstroem</span>
+    </div>
+    <p class="footer__tagline">Handbyggda möbler av hög kvalitet.</p>
+    <nav class="footer__nav">
+      <a href="index.html">Hem</a>
+      <span class="sep">·</span>
+      <a href="lantbord.html">Lantbordet</a>
+      <span class="sep">·</span>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <p class="footer__copy">&copy; <span id="yr"></span> Lidstroem. Alla rättigheter förbehållna.</p>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>

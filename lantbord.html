@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lidstroem Lantbordet — Massivt trebocksbord i oljat eller tryckimpregnerat utförande. Handbyggt för generationer." />
+  <title>Lantbordet — Lidstroem</title>
+  <link rel="icon" href="images/logo.webp" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    /* ── LANTBORD SPECIFIC ── */
+
+    /* VARIANT SWITCHER */
+    .variant { padding: var(--section-pad) 2rem; }
+    .variant__inner { max-width: 1280px; margin: 0 auto; }
+
+    .variant__tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .variant__tab {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 1rem 2rem 1rem 0;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.3s, border-color 0.3s;
+      cursor: pointer;
+      background: none;
+      border-left: none; border-right: none; border-top: none;
+    }
+    .variant__tab.active { color: var(--cream); border-bottom-color: var(--gold); }
+    .variant__tab:hover:not(.active) { color: var(--cream-dim); }
+
+    .dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-grey    { background: #8a9090; border: 1px solid #6a7070; }
+    .dot-natural { background: #c8a060; border: 1px solid #a88040; }
+
+    /* Panels */
+    .variant__panel { display: none; }
+    .variant__panel.active { display: grid; }
+    .variant__panel {
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    /* Gallery */
+    .v-gallery__main {
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--bg-card);
+      cursor: zoom-in;
+    }
+    .v-gallery__main img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s var(--ease-out), opacity 0.3s;
+    }
+    .v-gallery__main:hover img { transform: scale(1.04); }
+
+    .v-gallery__thumbs {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .v-gallery__thumb {
+      flex: 1;
+      aspect-ratio: 1;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .v-gallery__thumb.active { border-color: var(--gold); }
+    .v-gallery__thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .v-gallery__thumb:hover img { transform: scale(1.08); }
+
+    /* Info */
+    .v-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+    }
+    .v-desc {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--cream-dim);
+      margin-bottom: 2rem;
+    }
+    .v-specs { list-style: none; border-top: 1px solid var(--border); }
+    .v-specs li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .spec-key {
+      font-family: var(--font-ui);
+      font-size: 0.64rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .spec-val {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--cream-dim);
+      text-align: right;
+    }
+
+    /* KONSTRUKTION */
+    .konstruktion {
+      background: var(--bg-section);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: var(--section-pad) 2rem;
+    }
+    .konstruktion__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .konstruktion__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 1.4rem;
+    }
+    .konstruktion__body {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--cream-dim);
+      margin-bottom: 1rem;
+    }
+    .konstruktion__imgs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+    .konstruktion__img {
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+    .konstruktion__img--wide { grid-column: span 2; }
+    .konstruktion__img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s var(--ease-out);
+    }
+    .konstruktion__img:hover img { transform: scale(1.05); }
+    .konstruktion__img--wide img { height: 340px; }
+    .konstruktion__img:not(.konstruktion__img--wide) img { height: 200px; }
+
+    /* JÄMFÖRELSE */
+    .jamforelse {
+      padding: var(--section-pad) 2rem;
+    }
+    .jamforelse__inner { max-width: 960px; margin: 0 auto; }
+    .jamforelse__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 3rem;
+    }
+    .j-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border);
+    }
+    .j-table th, .j-table td {
+      padding: 0.9rem 1.2rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--cream-dim);
+      vertical-align: middle;
+    }
+    .j-table th {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: rgba(255,255,255,0.03);
+      white-space: nowrap;
+    }
+    .j-table th:first-child { color: var(--text-muted); font-weight: 400; }
+    .j-table td:first-child {
+      font-family: var(--font-ui);
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .j-table td.col-grey { background: rgba(138,144,144,0.05); }
+    .j-table td.col-nat  { background: rgba(200,160,96,0.05); }
+    .j-check { color: var(--gold); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .variant__panel { grid-template-columns: 1fr; gap: 3rem; }
+      .konstruktion__inner { grid-template-columns: 1fr; gap: 3rem; }
+      .konstruktion__imgs { order: -1; }
+    }
+    @media (max-width: 640px) {
+      .v-gallery__thumbs { display: none; }
+      .j-table th:first-child,
+      .j-table td:first-child { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<header class="navbar">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo">
+      <img src="images/logo.webp" alt="Lidstroem" />
+      <span class="navbar__brand">Lidstroem</span>
+    </a>
+    <nav class="navbar__nav">
+      <a href="index.html">Hem</a>
+      <a href="lantbord.html">Lantbordet</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <button class="navbar__burger" aria-label="Meny">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="navbar__mobile">
+    <a href="index.html">Hem</a>
+    <a href="lantbord.html">Lantbordet</a>
+    <a href="kontakt.html">Kontakt</a>
+  </nav>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero__bg">
+    <img src="images/lantbord-hero.png" alt="Lantbordet på sommärfält" style="object-position: center 55%;" />
+    <div class="hero__overlay"></div>
+  </div>
+  <div class="hero__content">
+    <span class="label reveal">Nytt från Lidstroem</span>
+    <h1 class="hero__title reveal reveal-d1">Lantbordet</h1>
+    <p class="hero__sub reveal reveal-d2">
+      Gedigen trebockskonstruktion.<br />
+      Välj utförande — oljat eller tryckimpregnerat.
+    </p>
+    <div class="hero__cta reveal reveal-d3">
+      <a href="#utforande" class="btn btn-gold">Se utföranden</a>
+      <a href="kontakt.html" class="btn btn-outline">Beställ</a>
+    </div>
+  </div>
+  <div class="hero__scroll reveal reveal-d4"><span></span></div>
+</section>
+
+<!-- ══ UTFÖRANDE ══ -->
+<section class="variant" id="utforande">
+  <div class="variant__inner">
+
+    <div class="variant__tabs reveal">
+      <button class="variant__tab active" data-tab="impregnerad">
+        <span class="dot dot-grey"></span>Tryckimpregnerad
+      </button>
+      <button class="variant__tab" data-tab="oljad">
+        <span class="dot dot-natural"></span>Oljad
+      </button>
+    </div>
+
+    <!-- Impregnerad -->
+    <div class="variant__panel active" id="tab-impregnerad">
+      <div class="v-gallery">
+        <div class="v-gallery__main reveal" id="main-imp">
+          <img src="images/lantbord-angle.jpg" alt="Lantbord tryckimpregnerat" id="main-imp-img" />
+        </div>
+        <div class="v-gallery__thumbs">
+          <div class="v-gallery__thumb active" data-main="main-imp-img" data-src="images/lantbord-angle.jpg">
+            <img src="images/lantbord-angle.jpg" alt="Vinkelvy" loading="lazy" />
+          </div>
+          <div class="v-gallery__thumb" data-main="main-imp-img" data-src="images/lantbord-front.jpg">
+            <img src="images/lantbord-front.jpg" alt="Frontvy" loading="lazy" />
+          </div>
+          <div class="v-gallery__thumb" data-main="main-imp-img" data-src="images/lantbord-top.jpg">
+            <img src="images/lantbord-top.jpg" alt="Uppifrån" loading="lazy" />
+          </div>
+          <div class="v-gallery__thumb" data-main="main-imp-img" data-src="images/lantbord-side.jpg">
+            <img src="images/lantbord-side.jpg" alt="Sidovy" loading="lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="v-info reveal reveal-d2">
+        <span class="label">Utförande 01</span>
+        <div class="gold-line"></div>
+        <h2 class="v-title">Tryckimpregnerad</h2>
+        <p class="v-desc">
+          Det tryckimpregnerade lantbordet behandlas med en klassisk gråton som harmonierar
+          med det nordiska klimatet och den svenska landsbygdens estetik. Grunden är
+          tryckimpregnerat virke — vilket ger ett naturligt skydd mot fukt och röta.
+          Den yttersta lasyrbehandlingen ger karaktär och djup, och förstärks med åren.
+        </p>
+        <ul class="v-specs">
+          <li>
+            <span class="spec-key">Ytbehandling</span>
+            <span class="spec-val">Gråton lasyr på tryckimpregnerat virke</span>
+          </li>
+          <li>
+            <span class="spec-key">Underhåll</span>
+            <span class="spec-val">Pensla på ny lasyr vart 3–5 år</span>
+          </li>
+          <li>
+            <span class="spec-key">Karaktär</span>
+            <span class="spec-val">Naturligt åldras med värdighet</span>
+          </li>
+          <li>
+            <span class="spec-key">Passar för</span>
+            <span class="spec-val">Utomhus året runt, altan, gårdsplan</span>
+          </li>
+        </ul>
+        <a href="kontakt.html" class="btn btn-gold" style="margin-top:2rem;">Fråga om pris</a>
+      </div>
+    </div>
+
+    <!-- Oljad -->
+    <div class="variant__panel" id="tab-oljad">
+      <div class="v-gallery">
+        <div class="v-gallery__main reveal" id="main-olj">
+          <img src="images/lantbord-hero.png" alt="Lantbord oljat" id="main-olj-img" />
+        </div>
+        <div class="v-gallery__thumbs">
+          <div class="v-gallery__thumb active" data-main="main-olj-img" data-src="images/lantbord-hero.png">
+            <img src="images/lantbord-hero.png" alt="Naturträ helvy" loading="lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="v-info reveal reveal-d2">
+        <span class="label">Utförande 02</span>
+        <div class="gold-line"></div>
+        <h2 class="v-title">Oljad</h2>
+        <p class="v-desc">
+          Det oljade lantbordet låter det naturliga virket tala för sig självt.
+          En penetrerande träolja bevarar fibrernas naturliga guldton och skyddar
+          mot fukt utan att täcka träets karaktär. Resultatet är ett levande,
+          organiskt utseende som varje år berättar en ny historia.
+        </p>
+        <ul class="v-specs">
+          <li>
+            <span class="spec-key">Ytbehandling</span>
+            <span class="spec-val">Penetrerande träolja, naturton</span>
+          </li>
+          <li>
+            <span class="spec-key">Underhåll</span>
+            <span class="spec-val">Oljas om en gång per säsong</span>
+          </li>
+          <li>
+            <span class="spec-key">Karaktär</span>
+            <span class="spec-val">Varm, naturlig träkänsla</span>
+          </li>
+          <li>
+            <span class="spec-key">Passar för</span>
+            <span class="spec-val">Altan, restaurang, event, sommarbruk</span>
+          </li>
+        </ul>
+        <a href="kontakt.html" class="btn btn-gold" style="margin-top:2rem;">Fråga om pris</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ KONSTRUKTION ══ -->
+<section class="konstruktion">
+  <div class="konstruktion__inner">
+    <div class="konstruktion__text">
+      <span class="label reveal">Konstruktion</span>
+      <div class="gold-line reveal reveal-d1"></div>
+      <h2 class="konstruktion__title reveal reveal-d1">Trebocks&shy;konstruktion</h2>
+      <p class="konstruktion__body reveal reveal-d2">
+        Lantbordets bas vilar på en klassisk trebockskonstruktion — en tidlös design
+        inspirerad av medeltida klosterbord och svenska bondgårdar. Diagonala stöttor
+        fördelar vikten längs hela bordets längd och ger en stabilitet som
+        inte kan uppnås med konventionella bordben.
+      </p>
+      <p class="konstruktion__body reveal reveal-d3">
+        Varje fog är noggrant tillpassad och fäst med galvaniserade bultar.
+        Virket är kraftigt dimensionerat — inget här är sparsmakat.
+        Det syns i hantverket, och det känns när man sätter handen på bordet.
+      </p>
+    </div>
+    <div class="konstruktion__imgs">
+      <div class="konstruktion__img konstruktion__img--wide reveal">
+        <img src="images/lantbord-fot.jpg" alt="Trebockskonstruktionens fot" loading="lazy" />
+      </div>
+      <div class="konstruktion__img reveal reveal-d1">
+        <img src="images/lantbord-detalj2.jpg" alt="Bultdetalj" loading="lazy" />
+      </div>
+      <div class="konstruktion__img reveal reveal-d2">
+        <img src="images/lantbord-detalj1.jpg" alt="Understödsbalk" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ JÄMFÖRELSE ══ -->
+<section class="jamforelse">
+  <div class="jamforelse__inner">
+    <span class="label reveal">Välj rätt utförande</span>
+    <div class="gold-line reveal reveal-d1"></div>
+    <h2 class="jamforelse__title reveal reveal-d1">Tryckimpregnerat vs. Oljat</h2>
+    <div class="reveal reveal-d2">
+      <table class="j-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th><span class="dot dot-grey" style="margin-right:.5rem;"></span>Tryckimpregnerad</th>
+            <th><span class="dot dot-natural" style="margin-right:.5rem;"></span>Oljad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Skydd mot fukt</td>
+            <td class="col-grey"><span class="j-check">✓</span> Utmärkt, inbyggt</td>
+            <td class="col-nat"><span class="j-check">✓</span> Mycket bra med olja</td>
+          </tr>
+          <tr>
+            <td>Underhåll</td>
+            <td class="col-grey">Lågt — lasyr vart 3–5 år</td>
+            <td class="col-nat">Medel — olja en gång/säsong</td>
+          </tr>
+          <tr>
+            <td>Utseende</td>
+            <td class="col-grey">Gråton, nordisk karaktär</td>
+            <td class="col-nat">Varm naturton, organisk</td>
+          </tr>
+          <tr>
+            <td>Åldras</td>
+            <td class="col-grey">Silvrar naturligt med åren</td>
+            <td class="col-nat">Vacker patina, djupnar</td>
+          </tr>
+          <tr>
+            <td>Rekommenderas för</td>
+            <td class="col-grey">Utemiljö, helårsklimat</td>
+            <td class="col-nat">Altan, restaurang, event</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="cta-banner">
+  <div class="cta-banner__bg">
+    <img src="images/lantbord-side.jpg" alt="" loading="lazy" />
+    <div class="cta-banner__overlay"></div>
+  </div>
+  <div class="cta-banner__inner">
+    <div class="cta-banner__content">
+      <span class="label reveal">Intresserad?</span>
+      <h2 class="cta-banner__title reveal reveal-d1">Beställ ditt lantbord</h2>
+      <p class="cta-banner__body reveal reveal-d2">
+        Hör av dig med önskemål om utförande, mått och antal.
+        Vi återkommer med pris och leveranstid.
+      </p>
+      <a href="kontakt.html" class="btn btn-gold reveal reveal-d3">Kontakta oss</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer__inner">
+    <div class="footer__logo">
+      <img src="images/logo.webp" alt="Lidstroem" />
+      <span>Lidstroem</span>
+    </div>
+    <p class="footer__tagline">Handbyggda möbler av hög kvalitet.</p>
+    <nav class="footer__nav">
+      <a href="index.html">Hem</a>
+      <span class="sep">·</span>
+      <a href="lantbord.html">Lantbordet</a>
+      <span class="sep">·</span>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <p class="footer__copy">&copy; <span id="yr"></span> Lidstroem. Alla rättigheter förbehållna.</p>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ── TAB SWITCHER ── */
+  document.querySelectorAll('.variant__tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const id = tab.dataset.tab;
+      document.querySelectorAll('.variant__tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.variant__panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('tab-' + id).classList.add('active');
+    });
+  });
+
+  /* ── THUMBNAIL SWITCHER ── */
+  document.querySelectorAll('.v-gallery__thumb').forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const mainImg = document.getElementById(thumb.dataset.main);
+      const siblings = thumb.closest('.v-gallery__thumbs').querySelectorAll('.v-gallery__thumb');
+      siblings.forEach(s => s.classList.remove('active'));
+      thumb.classList.add('active');
+      mainImg.style.opacity = '0.5';
+      mainImg.src = thumb.dataset.src;
+      mainImg.onload = () => mainImg.style.opacity = '1';
+    });
+  });
+</script>
+</body>
+</html>
