@@ -41,9 +41,11 @@
     }
     .about__image img {
       width: 100%;
-      height: 560px;
+      height: auto;
+      /* Ändra från 4/5 till 3/2 för att passa liggande bilder bättre på desktop */
+      aspect-ratio: 3 / 2; 
       object-fit: cover;
-      object-position: center top;
+      object-position: center; /* Centrerar så det som ev. klipps är kanterna */
     }
     .about__image-frame {
       position: absolute;
@@ -104,22 +106,39 @@
       font-weight: 400;
       color: var(--cream);
     }
-    .gallery__grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      grid-template-rows: 340px 340px;
-      gap: 4px;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-    .gallery__item { overflow: hidden; background: var(--bg-card); }
-    .gallery__item--large { grid-row: span 2; }
-    .gallery__item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.8s var(--ease-out);
-    }
+    /* GALLERY GRID FIX */
+  .gallery__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* Den vänstra kolumnen är lite bredare */
+    gap: 1rem; /* Mer luft mellan bilderna gör det lyxigare */
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .gallery__item {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-card);
+  }
+
+  .gallery__item--large {
+    grid-row: span 2; /* VIKTIGT: Denna sträcker sig nu över två rader */
+  }
+
+  .gallery__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fyller ut rutan */
+    display: block;
+    transition: transform 0.8s var(--ease-out);
+  }
+
+  /* För att se till att de små bilderna får en bra form på desktop */
+  .gallery__item:not(.gallery__item--large) {
+    aspect-ratio: 3 / 2; 
+  }
     .gallery__item:hover img { transform: scale(1.06); }
 
     /* TEASER */
@@ -139,9 +158,11 @@
     .teaser__img-wrap { position: relative; overflow: hidden; }
     .teaser__img-wrap img {
       width: 100%;
-      height: 480px;
+      height: auto;           /* Tvingar bilden att sluta vara 480px hög */
+      aspect-ratio: 16 / 10;   /* Detta skapar den fasta formen (ändra till 16/9 om du vill ha den lägre) */
       object-fit: cover;
       transition: transform 0.8s var(--ease-out);
+      display: block;         /* Tar bort små glipor i botten */
     }
     .teaser__img-wrap:hover img { transform: scale(1.04); }
     .teaser__badge {
@@ -171,17 +192,45 @@
     }
 
     /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .about__inner,
-      .teaser__inner { grid-template-columns: 1fr; gap: 3rem; }
-      .about__image img { height: 360px; }
-      .teaser__img-wrap img { height: 320px; }
-      .about__image { order: -1; }
-      .features__grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .gallery__grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-      .gallery__item { height: 260px; }
-      .gallery__item--large { grid-row: span 1; height: 320px; }
-    }
+    /* UPPDATERAD RESPONSIVE-DEL */
+@media (max-width: 900px) {
+  .about__inner,
+  .teaser__inner { 
+    grid-template-columns: 1fr; 
+    gap: 2rem; 
+  }
+
+  .about__image { order: -1; } /* Flyttar upp bilden på mobil */
+
+  .about__image img { 
+    height: auto; 
+    aspect-ratio: 4 / 3; /* Ger en naturlig form oavsett skärmbredd */
+    width: 100%;
+  }
+
+  .teaser__img-wrap img { 
+    height: auto;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+  }
+
+  .features__grid { 
+    grid-template-columns: 1fr; 
+    gap: 2.5rem; 
+  }
+
+  .gallery__grid { 
+    grid-template-columns: 1fr; 
+    grid-template-rows: auto; 
+    gap: 1rem; /* Lite mer luft mellan bilderna på mobil */
+  }
+
+  .gallery__item, 
+  .gallery__item--large { 
+    height: auto; 
+    aspect-ratio: 3 / 2; /* Alla galleribilder får samma proportioner på mobil */
+  }
+}
   </style>
 </head>
 <body>
@@ -195,7 +244,7 @@
     </a>
     <nav class="navbar__nav">
       <a href="index.html">Hem</a>
-      <a href="lantbord.html">Lantbordet</a>
+      <!-- <a href="lantbord.html">Lantbordet</a> -->
       <a href="kontakt.html">Kontakt</a>
     </nav>
     <button class="navbar__burger" aria-label="Meny">
@@ -204,7 +253,7 @@
   </div>
   <nav class="navbar__mobile">
     <a href="index.html">Hem</a>
-    <a href="lantbord.html">Lantbordet</a>
+    <!-- <a href="lantbord.html">Lantbordet</a> -->
     <a href="kontakt.html">Kontakt</a>
   </nav>
 </header>
@@ -237,15 +286,23 @@
       <div class="gold-line reveal reveal-d1"></div>
       <h2 class="about__title reveal reveal-d1">Byggd för att bestå.</h2>
       <p class="about__body reveal reveal-d2">
-        Varje bord byggs för hand med noggrant utvalt tryckimpregnerat virke. De exponerade ytorna slipas för att bättre motstå fukt,röta och tidens tand. Skruv och bultar är av hög kvalitet. Resultatet är ett bord som inte bara ser bra ut från dag ett, utan som håller genom decennier av regn, sol och sällskap.
+        Varje bord byggs för hand med noggrant utvalt tryckimpregnerat virke. De exponerade ytorna slipas för att bättre motstå fukt, röta och tidens tand. Höga kvalitetskrav ställs på skruv och bultar. Resultatet är ett bord som inte bara ser bra ut från dag ett, utan som håller genom decennier av regn, sol och sällskap.
       </p>
       <p class="about__body reveal reveal-d3">
-       Bordet byggs efter egen ritning. Konstruktionen är genomtänkt i varje detalj: robust bärstruktur,avrundade kanter och ett sittmått som är bekvämt för hela familjen. I designen prioriteras lång hållfasthet högre än att snåla med materialet. Passar lika bra på gårdsplanen som på restaurangterassen.
+       Bordet byggs efter egen ritning. Konstruktionen är genomtänkt i varje detalj: robust bärstruktur, avrundade kanter och ett sittmått som är bekvämt för hela familjen. I designen prioriteras lång hållbarhet för att bordet ska hålla mycket länge. Passar lika bra på gårdsplanen som på restaurangterassen.
       </p>
-      <a href="kontakt.html" class="btn btn-outline reveal reveal-d4" style="margin-top:1.5rem;">Fråga om pris</a>
+      
+
+       <p class="about__body reveal reveal-d3" style="font-weight: 500; color: var(--cream); margin-top: 1.5rem;">
+        <strong>PRIS</strong><br />
+        Picknickbord 180 cm (6 sittplatser): 5500 kr <br />
+        Picknickbord 220 cm (8 sittplatser): 6500 kr
+        </p>
+      
+      <a href="kontakt.html" class="btn btn-outline reveal reveal-d4" style="margin-top:1.5rem;">Beställ</a>
     </div>
     <div class="about__image reveal reveal-d2">
-      <img src="images/front.jpg" alt="Frontvy av picknicktbord" />
+      <img src="images/front.jpg" alt="Frontvy av picknickbord" />
       <div class="about__image-frame"></div>
     </div>
   </div>
@@ -305,20 +362,23 @@
     <h2 class="gallery__title reveal reveal-d1">Bordet i sin miljö</h2>
   </div>
   <div class="gallery__grid">
-    <div class="gallery__item gallery__item--large reveal">
-      <img src="images/detail.jpg" alt="Närbild på träkonstruktion" loading="lazy" />
-    </div>
+    <!-- <div class="gallery__item gallery__item--large reveal">
+      <img src="images/short_table1.jpg" alt="Närbild på träkonstruktion" loading="lazy" />
+    </div> -->
     <div class="gallery__item reveal reveal-d1">
-      <img src="images/dramatic.jpg" alt="Bordet sett framifrån" loading="lazy" />
+      <img src="images/long_table_detail.jpg" alt="Bordet sett framifrån" loading="lazy" />
     </div>
     <div class="gallery__item reveal reveal-d2">
       <img src="images/side.jpg" alt="Sidovy av picknicktbordet" loading="lazy" />
+    </div>
+    <div class="gallery__item reveal reveal-d2">
+      <img src="images/long_table_overview.jpg" alt="Sidovy av picknicktbordet" loading="lazy" />
     </div>
   </div>
 </section>
 
 <!-- ══ LANTBORD TEASER ══ -->
-<section class="teaser">
+<!-- <section class="teaser">
   <div class="teaser__inner">
     <div class="teaser__img-wrap reveal">
       <img src="images/lantbord-angle.jpg" alt="Lantbordet — trebockskonstruktion" loading="lazy" />
@@ -336,7 +396,7 @@
       <a href="lantbord.html" class="btn btn-gold reveal reveal-d3">Se lantbordet</a>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- ══ CTA ══ -->
 <section class="cta-banner">
@@ -365,7 +425,7 @@
     <nav class="footer__nav">
       <a href="index.html">Hem</a>
       <span class="sep">·</span>
-      <a href="lantbord.html">Lantbordet</a>
+      <!-- <a href="lantbord.html">Lantbordet</a> -->
       <span class="sep">·</span>
       <a href="kontakt.html">Kontakt</a>
     </nav>
